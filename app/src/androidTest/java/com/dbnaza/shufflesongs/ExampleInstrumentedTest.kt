@@ -1,4 +1,4 @@
-package com.dbnaza.musicshuffle
+package com.dbnaza.shufflesongs
 
 import androidx.test.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4
