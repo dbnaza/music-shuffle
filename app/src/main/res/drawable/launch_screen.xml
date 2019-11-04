@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" android:opacity="opaque">
+    <item>
+        <shape>
+            <gradient android:angle="135"
+                      android:type="linear"
+                      android:startColor="@color/bright_purple"
+                      android:endColor="@color/dark_purple"
+                      android:useLevel="false"/>
+        </shape>
+    </item>
+
+    <item>
+        <bitmap
+                android:src="@drawable/shufflesongs"
+                android:gravity="center_vertical"/>
+    </item>
+
+</layer-list>
