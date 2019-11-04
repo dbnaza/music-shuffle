@@ -4,8 +4,9 @@
     <color name="colorPrimaryDark">@color/purple</color>
     <color name="colorAccent">@android:color/white</color>
 
-    <color name="light_purple">#653A4A</color>
+    <color name="light_pink">#C15F6C</color>
     <color name="bright_purple">#462E3E</color>
     <color name="purple">#382430</color>
     <color name="dark_purple">#372637</color>
+    <color name="gray">#483C48</color>
 </resources>

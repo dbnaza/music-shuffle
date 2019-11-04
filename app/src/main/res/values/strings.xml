@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Shuffle Songs</string>
+    <string name="empty_list">Desculpe, não conseguimos encontrar nenhuma música :(</string>
+    <string name="error_title">Aconteceu um erro :(</string>
+    <string name="try_again">Tentar novamente</string>
+    <string name="shuffle">Embaralhar</string>
 </resources>
