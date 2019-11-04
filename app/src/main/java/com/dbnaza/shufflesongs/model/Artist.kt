@@ -5,5 +5,5 @@ data class Artist(
     val name: String,
     val artistType: String,
     val genre: String,
-    val tracks: MutableList<Track> = mutableListOf()
+    var tracks: MutableList<Track> = mutableListOf()
 )

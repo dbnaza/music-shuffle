@@ -1,5 +1,6 @@
 package com.dbnaza.shufflesongs.ui.viewmodel
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.dbnaza.shufflesongs.SelectedArtists
@@ -11,9 +12,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.Dispatchers.Main
 import com.dbnaza.shufflesongs.application.ShuffleSongsApplication.Companion.MAX_SONGS_LIMIT
+import com.dbnaza.shufflesongs.util.copyArtist
+import com.dbnaza.shufflesongs.util.shuffleArtist
+import com.dbnaza.shufflesongs.util.shuffleTrack
 import kotlinx.coroutines.FlowPreview
 
 
+@FlowPreview
 class TracksViewModel(private val tracksInteractor: TracksInteractor) : ViewModel() {
 
     val tracksLiveData = MutableLiveData<List<Track>>()
@@ -21,7 +26,6 @@ class TracksViewModel(private val tracksInteractor: TracksInteractor) : ViewMode
     var artists: List<Artist> = mutableListOf()
     var hasLoadFinished = false
 
-    @FlowPreview
     fun getTracks() {
         stateLiveData.postValue(ArtistsWithSongsListViewState.LoadingState)
 
@@ -37,19 +41,22 @@ class TracksViewModel(private val tracksInteractor: TracksInteractor) : ViewMode
         }
     }
 
-    @FlowPreview
     fun shuffleSongs() {
-        val artistsCopy = ArrayList(artists.map { it.copy() })
+        tracksLiveData.postValue(getArtistsTracksShuffledList(artists))
+    }
+
+    fun getArtistsTracksShuffledList(artists: List<Artist>) : MutableList<Track> {
+        var artistsCopy = artists.copyArtist()
         val shuffled = mutableListOf<Track>()
         var lastArtistInFirstPosition: Artist? = null
 
-        artistsCopy.forEach {
-            it.tracks.shuffle()
+        artistsCopy.map {
+            it.tracks = it.tracks.shuffleTrack()
         }
 
         for (i in 0 until MAX_SONGS_LIMIT) {
-            artistsCopy.shuffle()
-            for (j in 0 until artistsCopy.size) {
+            artistsCopy = artistsCopy.shuffleArtist()
+            for (j in artistsCopy.indices) {
                 val currentArtist = artistsCopy[j]
                 if (j == 0 && currentArtist.id == lastArtistInFirstPosition?.id) {
                     changeFirstArtist(artistsCopy)
@@ -58,7 +65,8 @@ class TracksViewModel(private val tracksInteractor: TracksInteractor) : ViewMode
                 lastArtistInFirstPosition = currentArtist
             }
         }
-        tracksLiveData.postValue(shuffled)
+
+        return shuffled
     }
 
     private fun changeFirstArtist(copyArtists: MutableList<Artist>) {

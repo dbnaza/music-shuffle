@@ -7,17 +7,19 @@ import com.dbnaza.shufflesongs.network.interactors.TracksInteractor
 import com.dbnaza.shufflesongs.testutils.DUMMY_ARTISTS
 import com.dbnaza.shufflesongs.testutils.rule.instantLiveDataAndCoroutineRules
 import com.dbnaza.shufflesongs.ui.viewmodel.TracksViewModel
-import io.mockk.MockKAnnotations
-import io.mockk.coEvery
+import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
-import io.mockk.verify
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.runBlocking
 import org.junit.After
+import org.junit.Test
+
 import org.junit.Before
 import org.junit.Rule
-import org.junit.Test
+import java.lang.Exception
+import com.dbnaza.shufflesongs.util.shuffleArtist
+import com.dbnaza.shufflesongs.util.shuffleTrack
 
 @FlowPreview
 class TracksViewModelTest {
@@ -75,6 +77,28 @@ class TracksViewModelTest {
 
         verify {
             observerState.onChanged(successState)
+        }
+    }
+
+
+    @Test
+    fun whenGetTracks_withSuccessAndListNotEmpty_shouldEmitShuffledList() = runBlocking {
+        val successState = ArtistsWithSongsListViewState.SuccessState(
+            DUMMY_ARTISTS
+        )
+        coEvery { tracksInteractor.getArtistsWithSongs(SelectedArtists.artists) } returns successState
+
+        mockkStatic("com.dbnaza.shufflesongs.util.CollectionExtKt")
+        every {DUMMY_ARTISTS.shuffleArtist() } returns DUMMY_ARTISTS
+        for (i in 0 until DUMMY_ARTISTS.size) {
+            every { DUMMY_ARTISTS[i].tracks.shuffleTrack() } returns DUMMY_ARTISTS[i].tracks
+        }
+        val shuffled = viewModel.getArtistsTracksShuffledList(DUMMY_ARTISTS)
+
+        viewModel.getTracks()
+
+        verify {
+            observerTrackList.onChanged(shuffled)
         }
     }
 
