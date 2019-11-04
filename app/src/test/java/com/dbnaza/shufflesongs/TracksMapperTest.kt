@@ -1,5 +1,6 @@
 package com.dbnaza.shufflesongs
 
+import com.dbnaza.shufflesongs.network.api.TrackMapper
 import com.dbnaza.shufflesongs.network.api.model.TrackListResponse
 import com.dbnaza.shufflesongs.network.api.model.TrackResponse
 import com.dbnaza.shufflesongs.testutils.StringGenerator.getRandomString

@@ -1,6 +1,6 @@
 package com.dbnaza.shufflesongs.network.interactors
 
-import com.dbnaza.shufflesongs.TrackMapper
+import com.dbnaza.shufflesongs.network.api.TrackMapper
 import com.dbnaza.shufflesongs.network.ArtistsWithSongsListViewState
 import com.dbnaza.shufflesongs.network.api.TracksApi
 import kotlinx.coroutines.Dispatchers.IO

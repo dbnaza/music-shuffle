@@ -1,4 +1,4 @@
-package com.dbnaza.shufflesongs
+package com.dbnaza.shufflesongs.network.api
 
 import com.dbnaza.shufflesongs.model.Artist
 import com.dbnaza.shufflesongs.model.Track
